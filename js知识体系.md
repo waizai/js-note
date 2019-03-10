@@ -90,7 +90,19 @@ Object
 # 2. 类型转换 (横转换成数列)
 | ------ | null | undefined | boolean(true) | boolean(false)| number| string | symbol | object |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| boolean |false| false | -- | -- | 0/NaN(false) 非0(true) | 空串(false) 非空串(true) *** | -- | -- |
-| number | 0 | NaN *** | 1 *** | 0 | -- | 小范围内是符合直觉的十进制表示 | 正常装 | 不支持 |
-| string | 'null' | 'undefined' | 'true' | 'false' | 正常转 | tostring() | ------ | 不支持 |
-| object | TypeEroor *** | TypeEroor *** | 装箱转换*** | 装箱转换*** | 装箱 | 装箱 | -- | -- |
+| boolean |false| false | -- | -- | 0/NaN(false) 非0(true) | 空串(false) 非空串(true) *** | true *** | -- |
+| number | 0 | NaN *** | 1 *** | 0 | -- | 正常转 | TypeEroor *** | 拆箱*** |
+| string | 'null' | 'undefined' | 'true' | 'false' | 小范围内是符合直觉的十进制表示 | -- | toString() | 拆箱*** |
+| object | TypeEroor *** | TypeEroor *** | 装箱转换*** | 装箱转换*** | 装箱 | 装箱 | 装箱*** | -- |
+
+---
+---
+装箱转换？ ***
+
+拆箱转换？ ***
+
+* 先拆箱在转换
+* 拆箱： Object --> 基本类型（用valueof 和 tostring）
+* 转换： 基本类型转换成 string或者number
+
+分别写2个例子？？***
