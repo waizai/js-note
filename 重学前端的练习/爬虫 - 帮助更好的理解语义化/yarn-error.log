@@ -1,0 +1,37 @@
+Arguments: 
+  /Users/waizai/.nvm/versions/node/v8.9.3/bin/node /Users/waizai/.yarn/bin/yarn.js install superagent cheerio --save
+
+PATH: 
+  /Users/waizai/.yarn/bin:/Users/waizai/.nvm/versions/node/v8.9.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.9.3
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "123",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: `install` has been replaced with `add` to add new dependencies. Run "yarn add superagent cheerio" instead.
+      at new MessageError (/Users/waizai/.yarn/lib/cli.js:186:110)
+      at Object.<anonymous> (/Users/waizai/.yarn/lib/cli.js:21987:13)
+      at Generator.next (<anonymous>)
+      at step (/Users/waizai/.yarn/lib/cli.js:98:30)
+      at /Users/waizai/.yarn/lib/cli.js:109:13
+      at <anonymous>
