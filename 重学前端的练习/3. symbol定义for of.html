@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>语义化练习</title> 
+</head>
+<body>
+    
+</body>
+<script>
+
+var o = new Object;
+o[Symbol.iterator] = function(){
+    var v = 0;
+    return {
+        next() {
+            return { value: v++, done: v > 10}
+            // console.log('测试数据')
+        }
+    }
+}
+
+for(let val of o){
+    console.log(val);
+}
+
+</script>
+</html>
