@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>语义化练习</title> 
+</head>
+<body>
+    
+</body>
+<script>
+
+    /*// 用装箱机制得到一个symbol对象
+    //使用内置的object函数显示调用装箱
+    //模拟装箱转换
+    */
+
+// 用装箱机制得到一个symbol对象
+function getsymbol(){
+    return this;
+}
+
+var a = Symbol('stringa');
+getsymbol.call(a);
+
+//使用内置的object函数显示调用装箱
+var symbolobject = Object(Symbol('stringa'));
+
+// 模拟装箱转换
+var s1 = "some text";
+var s2 = s1.substring(2);
+
+
+var s1  = new String("some text");
+var s2 = s1.substring(2);
+s1 = null;
+
+
+// 下面的除了最后一种方法别的都是自己思考的。。。
+// 用 JS 代码实现 String 到 Number 的转换
+var str = '5433';
+
+Number(str);
+parseInt(str);
+str.valueOf();
++str;
+str * 1;
+~~str;
+
+
+</script>
+</html>
