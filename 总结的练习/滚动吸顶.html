@@ -1,0 +1,134 @@
+<!doctype html>
+  <html>
+   <head>
+     <title>起步</title>
+   </head>
+   <style>
+      .isFixed{
+          position: fixed;
+          top: 0;
+      }
+      .sticky-wrap{
+          position: relative;
+          position: sticky;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          transform: translateZ(0);
+      }
+   </style>
+   <body>
+        <div id="tab">
+            <div>
+                <div>这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字</div>
+                <div>这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字</div>
+                <div>这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字,这是不需要吸顶的一大块文字</div>
+            </div>
+            <div>
+                <div id="fixedHeaderRoot" :class="headerFixed?'sticky-wrap isFixed' : 'sticky-wrap'">
+                    <div>吸顶的标题,吸顶的标题,吸顶的标题,吸顶的标题,吸顶的标题</div>
+                    <div>吸顶的标题,吸顶的标题,吸顶的标题,吸顶的标题,吸顶的标题</div>
+                    <div>吸顶的标题,吸顶的标题,吸顶的标题,吸顶的标题,吸顶的标题</div>
+                </div>
+                <div>
+                    <ul>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                        <li>Coffee</li>
+                        <li>Milk</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script>
+            new Vue({
+                el: '#tab',
+                data: {
+                    offsetTop: 0,
+                    offsetHeight: 0,
+                    headerFixed: false,
+                    isSupportSticky: window.CSS && (window.CSS.supports('position:sticky') || window.CSS.supports('position:-webkit-sticky')) || false
+                },
+                computed: {},
+                methods: {
+                    handleScroll(){
+                      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                      // 判断页面滚动的距离是否大于吸顶元素的位置
+                      this.headerFixed = scrollTop > this.offsetTop;
+                    },
+                    init(){
+                        // 监听dom渲染完成
+                        this.$nextTick(function(){
+                            // 这里fixedHeaderRoot是吸顶元素的ID
+                            let header = document.getElementById("fixedHeaderRoot");
+                            // 这里要得到top的距离和元素自身的高度
+                            this.offsetTop = header.offsetTop;
+                            this.offsetHeight = header.offsetHeight;
+                            console.log("offsetTop:" + this.offsetTop + "," + this.offsetHeight);
+                        });
+
+                    }
+                },
+                destroyed(){
+                    if(!this.isSupportSticky){
+                      window.removeEventListener('scroll', this.handleScroll);
+                    }
+                    
+                },
+                mounted: function () {
+                    if(!this.isSupportSticky){
+                      window.addEventListener('scroll', this.handleScroll);
+                      this.init();
+                    }
+                    
+                }
+            })
+
+        </script>
+   </body>
+  </html>
