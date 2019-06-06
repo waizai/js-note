@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>点击穿透问题</title>
+
+	<style type="text/css">
+	body{
+		margin: 0;
+	}
+	.container{
+		width: 100%;
+		overflow: hidden;
+		position: relative;
+	}
+	.layer-title{
+		width: 100%;
+		margin: 50px 0;
+		text-align: center;
+	}
+	.layer-action{
+		position: absolute;
+		bottom: 20px;
+		width: 100%;
+		text-align: center;
+	}
+	.btn{
+		background-color: #08c;
+		border: 0;
+		color: #fff;
+		height: 30px;
+		line-height: 30px;
+		width: 100px;
+	}
+
+	#underLayer{
+		background-color: #eee;
+		width: 90%;
+		height: 500px;
+		line-height: 500px;
+		margin: 30px auto 1000px;
+		text-align: center;
+	}
+
+	#popupLayer{
+		/*display: none;*/
+		background-color: #fff;
+		width: 80%;
+		height: 200px;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-left: -40%;
+		margin-top: -100px;
+		z-index: 1;
+	}
+
+	#bgMask{
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0,0,0,0.6);
+	}
+	</style>
+</head>
+<body>
+	<table id="outside">    
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+		<tr><td class="t1">one</td></tr>
+		<tr><td class="t2">two</td></tr>
+	</table>
+
+
+	<script type="text/javascript">
+	// 实际想绑定在 scroll 事件上的 handler
+	function realFunc(){
+		console.log("Success");
+	}
+
+	// 简单的防抖动函数
+	function debounce(func, wait){
+		var timer;
+		return function(){
+			clearTimeout(timer);
+			timer = setTimeout(func, wait);
+		}
+	}
+
+	//防抖
+	// window.addEventListener("scroll", realFunc, false);
+	// window.addEventListener("scroll", debounce(realFunc, 500), false);
+
+
+	//----------------节流分割线------------------------
+	function throttle(func, wait, mustRun){
+		var timer,
+			startTime = new Date();
+		return function (){
+			var context = this,
+				args = arguments,
+				curTime = new Date();
+
+				clearTimeout(timer);
+				// 如果达到了规定的触发时间间隔，触发 handler
+				if(curTime - startTime >= mustRun){
+					func.apply(context, args);
+					startTime = curTime;
+				}else{
+					// 没达到触发间隔，重新设定定时器
+					timer = setTimeout(func, wait);
+				}
+		}
+	}
+	//节流
+	window.addEventListener('scroll',throttle(realFunc,500,1000));
+
+	//---------------requestAnimationFrame分割线--------------------
+	//requestAnimationFrame被调用的频率是每秒60次,1000/60
+	//有兼容性问题
+
+	var ticking = false;   //requestAnimationFrame触发锁
+	function onScroll(){
+		if(!ticking){
+			requestAnimationFrame(realFunc);
+			ticking = true;
+		}
+	}
+
+	window.addEventListener('scroll', onScroll, false);
+
+	</script>
+</body>
+</html>
